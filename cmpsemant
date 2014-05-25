@@ -1,5 +1,5 @@
 #!/bin/csh -f
-echo "mysemant:"
-./lexer $* | ./parser $* | ./semant $* 
-echo "refsemant:"
-./lexer $* | ./parser $* | refsemant $* 
+./lexer $* | ./parser $* | ./semant $* > tmp.out 
+./lexer $* | ./parser $* | refsemant $* > tmp2.out
+diff tmp.out tmp2.out
+rm tmp.out tmp2.out
