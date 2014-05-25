@@ -92,9 +92,18 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
         c_node current_class = (c_node)classes->nth(i);
         Symbol class_name = current_class->get_name();
         if(semant_debug) {
-            cout << "classname:" << class_name->get_string() <<endl;   
+            cout << "classname:" << class_name <<endl;   
             //  test if we check over all classes
         }
+        
+        if( class_symtable.lookup(class_name) ){
+            //  check the situation of class multiply defined. 
+            ostream& os =  semant_error(current_class);
+            os << current_class << " was multiply defined." << endl;
+        } 
+
+        class_symtable.addid(class_name,current_class);
+
     }
 
     install_basic_classes();
