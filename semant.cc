@@ -99,7 +99,7 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
         if( class_symtable.lookup(class_name) ){
             //  check the situation of class multiply defined. 
             ostream& os =  semant_error(current_class);
-            os << current_class << " was multiply defined." << endl;
+            os << "Class " << class_name << " was previously defined." << endl;
         } 
 
         class_symtable.addid(class_name,current_class);
