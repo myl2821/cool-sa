@@ -7,8 +7,9 @@
 #include "utilities.h"
 
 
-extern int semant_debug;        /* debug flag */
-extern char *curr_filename;     /* will be used in cgen */
+extern int semant_debug;            /* debug flag */
+extern char *curr_filename;         /* will be used in cgen */
+typedef class__class *c_node;        /* for the sake of convenient */
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -20,7 +21,7 @@ extern char *curr_filename;     /* will be used in cgen */
 //
 //////////////////////////////////////////////////////////////////////
 static Symbol 
-arg,
+    arg,
     arg2,
     Bool,
     concat,
@@ -85,9 +86,20 @@ static void initialize_constants(void)
     /* the WHOLE AST will be build in this constructor */
 ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) {
 
-    /* Fill this in */
-    install_basic_classes();
+    class_symtable.enterscope();
 
+    for ( int i = classes->first(); classes->more(i); i = classes->next(i) ) {
+        c_node current_class = (c_node)classes->nth(i);
+        Symbol class_name = current_class->get_name();
+        if(semant_debug) {
+            cout << "classname:" << class_name->get_string() <<endl;   
+            //  test if we check over all classes
+        }
+    }
+
+    install_basic_classes();
+    
+    class_symtable.exitscope();
 
 }
 
@@ -244,6 +256,8 @@ void program_class::semant()
     initialize_constants();
 
     /* ClassTable constructor may do some semantic analysis */
+
+    // the parameter 'classes' was received from the result of parser. 
     ClassTable *classtable = new ClassTable(classes);
 
     /* some semantic analysis code may go here */

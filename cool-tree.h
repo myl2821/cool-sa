@@ -12,7 +12,7 @@
 #include "tree.h"
 #include "cool-tree.handcode.h"
 
-// Add token to get the type of the tree node 
+// Add token to recognize the type of the tree node 
 
 enum Node_type {
     classType,
