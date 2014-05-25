@@ -1,0 +1,5 @@
+#!/bin/csh -f
+echo "mysemant:"
+./lexer $* | ./parser $* | ./semant $* 
+echo "refsemant:"
+./lexer $* | ./parser $* | refsemant $* 
