@@ -83,6 +83,7 @@ class Feature_class : public tree_node {
     public:
         tree_node *copy()		 { return copy_Feature(); }
         virtual Feature copy_Feature() = 0;
+        virtual Node_type get_type() = 0; 
 
 #ifdef Feature_EXTRAS
         Feature_EXTRAS

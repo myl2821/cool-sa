@@ -135,6 +135,7 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
     class_symtable.exitscope();
 }
 
+    // do semantic check in class subtree
 void ClassTable::semant_class(c_node current_class){
         Symbol class_name = current_class->get_name();
         Symbol parent_name;
@@ -150,8 +151,32 @@ void ClassTable::semant_class(c_node current_class){
                 ostream& os =  semant_error(current_class);
                 os << "Class " << class_name << " inherits from an undefined class " << parent_name << "." << endl;
             }
+
+        Features features = current_class->get_features();
+
+        for( int i = features->first(); features->more(i); i = features->next(i) ){
+            Feature feature = features->nth(i);
+            if ( feature->get_type() == attrType ){
+                semant_attr( current_class, (attr_class*)feature );         
+            }
+            else if ( feature-> get_type() == methodType ){
+                semant_method( current_class, (method_class*)feature );       
+            }
+        } 
+
+
         }
 }
+
+void ClassTable::semant_attr(c_node current_class,attr_class* attr){
+    ;
+}
+
+void ClassTable::semant_method(c_node current_class,method_class* method){
+    ;
+
+}
+
 
 void ClassTable::install_basic_classes() {
 
