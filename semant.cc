@@ -134,7 +134,13 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
 
         if ( class_name != Object ){
             parent_name = current_class->get_parent();
-            if ( class_symtable.lookup(parent_name) == NULL ){
+
+            if ( parent_name == Bool || parent_name == SELF_TYPE || parent_name == Str){
+                ostream& os =  semant_error(current_class);
+                os << "Class " << class_name << " cannot inherit from class " << parent_name << "." << endl;
+            }
+
+            else if ( class_symtable.lookup(parent_name) == NULL ){
                 ostream& os =  semant_error(current_class);
                 os << "Class " << class_name << " inherits from an undefined class " << parent_name << "." << endl;
             }

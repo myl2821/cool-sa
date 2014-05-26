@@ -37,8 +37,6 @@ submission: ..
 	-1 (hairyscary)	 Messy legal Cool program
 	-1 (if)	 If statement
 	-1 (inheritsObject)	 Class explicitly inherits Object (legal)
-	-1 (inheritsbool)	 Class inherits Bool (illegal)
-	-1 (inheritsstring)	 Class inherits String (illegal)
 	-1 (initwithself)	 Attribute initialized with self (legal)
 	-1 (io)	 IO methods
 	-1 (isvoid)	 isvoid expressions
@@ -78,8 +76,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 5 out of 74.
+You got a score of 7 out of 74.
 
 Submit code: 
-PA3-5:bf12f0550298c83dcc9362e4da69894b
+PA3-7:b1204866c88470dd217448cf352c8a73
 
