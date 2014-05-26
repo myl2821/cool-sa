@@ -11,6 +11,7 @@
 
 #include "tree.h"
 #include "cool-tree.handcode.h"
+#include "symtab.h"
 
 // Add token to recognize the type of the tree node 
 
@@ -98,6 +99,7 @@ class Formal_class : public tree_node {
     public:
         tree_node *copy()		 { return copy_Formal(); }
         virtual Formal copy_Formal() = 0;
+        virtual Node_type get_type() = 0; 
 
 #ifdef Formal_EXTRAS
         Formal_EXTRAS
@@ -112,6 +114,7 @@ class Expression_class : public tree_node {
     public:
         tree_node *copy()		 { return copy_Expression(); }
         virtual Expression copy_Expression() = 0;
+        virtual Node_type get_type() = 0 ;   
 
 #ifdef Expression_EXTRAS
         Expression_EXTRAS
@@ -207,7 +210,7 @@ class class__class : public Class__class {
         Symbol get_parent()         { return parent; }
         Features get_features()     { return features; }
 //      filename is not needed
-
+        SymbolTable<Symbol,tree_node> featureTable; // need to maintain the features of the class
 
 #ifdef Class__SHARED_EXTRAS
         Class__SHARED_EXTRAS
@@ -986,5 +989,8 @@ Expression isvoid(Expression);
 Expression no_expr();
 Expression object(Symbol);
 
+
+
+typedef class__class* c_node;
 
 #endif

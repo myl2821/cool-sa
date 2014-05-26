@@ -9,7 +9,7 @@
 
 extern int semant_debug;            /* debug flag */
 extern char *curr_filename;         /* will be used in cgen */
-typedef class__class *c_node;        /* for the sake of convenient */
+
 
 //////////////////////////////////////////////////////////////////////
 //
@@ -127,7 +127,6 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
 
             
     for( int i = classes->first(); classes->more(i); i = classes->next(i) ){
-
         current_class = (c_node)classes->nth(i);
         semant_class(current_class);
    }
@@ -135,10 +134,15 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
     class_symtable.exitscope();
 }
 
-    // do semantic check in class subtree
+    // first scan
 void ClassTable::semant_class(c_node current_class){
+
+        Table current_table = current_class->featureTable;
+        current_table.enterscope();
+
         Symbol class_name = current_class->get_name();
         Symbol parent_name;
+
         if ( class_name != Object ){
             parent_name = current_class->get_parent();
 
@@ -169,8 +173,26 @@ void ClassTable::semant_class(c_node current_class){
 }
 
 void ClassTable::semant_attr(c_node current_class,attr_class* attr){
-    ;
+    Symbol attr_name = attr->get_name();
+    Table current_table = current_class->featureTable;
+
+    Symbol attr_type = attr->get_type_decl();
+    Expression init = attr->get_init();
+
+    if( class_symtable.lookup(attr_type) == NULL){
+        ostream& os = semant_error(current_class);
+        os << "attribute " << attr_name << " declared with undefined type " << attr_type << endl;
+    }
+    
+    if ( current_table.probe(attr_name) ){
+        ostream& os = semant_error(current_class);
+        os << "attribute " << attr_name << " is multiply defined " << endl;
+    }
+
+    current_table.addid(attr_name,attr);
+
 }
+
 
 void ClassTable::semant_method(c_node current_class,method_class* method){
     ;

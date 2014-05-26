@@ -6,4 +6,5 @@ dumptype.o dumptype.d : dumptype.cc /usr/class/cs143/cool/include/PA4/copyright.
  /usr/class/cs143/cool/include/PA4/stringtab.h \
  /usr/class/cs143/cool/include/PA4/list.h cool-tree.h \
  cool-tree.handcode.h /usr/class/cs143/cool/include/PA4/stringtab.h \
+ /usr/class/cs143/cool/include/PA4/symtab.h \
  /usr/class/cs143/cool/include/PA4/utilities.h

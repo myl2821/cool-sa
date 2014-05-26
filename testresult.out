@@ -61,6 +61,7 @@ submission: ..
 	-1 (overriderenamearg)	 Overriding parent's method with new param names (legal)
 	-1 (overridingmethod4)	 Illegal method override - different param types
 	-1 (signaturechange)	 Method override with different number of params
+	-1 (redefinedclass)	 Redefinition of a class (illegal)
 	-1 (returntypenoexist)	 Undefined return type
 	-1 (scopes)	 Scope test (legal)
 	-1 (self-assignment)	 Assignment to self (illegal)
@@ -76,8 +77,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 7 out of 74.
+You got a score of 6 out of 74.
 
 Submit code: 
-PA3-7:b1204866c88470dd217448cf352c8a73
+PA3-6:40c47c5f2418ccb901d03c0d4be2f0a6
 
