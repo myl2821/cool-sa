@@ -90,7 +90,6 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
     install_basic_classes();
   
     Symbol class_name;
-    Symbol parent_name;
     c_node current_class; 
         // Do some check in the first loop
     for ( int i = classes->first(); classes->more(i); i = classes->next(i) ) {
@@ -130,8 +129,15 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
     for( int i = classes->first(); classes->more(i); i = classes->next(i) ){
 
         current_class = (c_node)classes->nth(i);
-        class_name = current_class->get_name();
+        semant_class(current_class);
+   }
 
+    class_symtable.exitscope();
+}
+
+void ClassTable::semant_class(c_node current_class){
+        Symbol class_name = current_class->get_name();
+        Symbol parent_name;
         if ( class_name != Object ){
             parent_name = current_class->get_parent();
 
@@ -145,9 +151,6 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
                 os << "Class " << class_name << " inherits from an undefined class " << parent_name << "." << endl;
             }
         }
-    }
-
-    class_symtable.exitscope();
 }
 
 void ClassTable::install_basic_classes() {

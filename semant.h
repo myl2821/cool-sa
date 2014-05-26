@@ -31,7 +31,8 @@ public:
   ostream& semant_error();
   ostream& semant_error(Class_ c);
   ostream& semant_error(Symbol filename, tree_node *t);
-  SymbolTable<Symbol, tree_node> class_symtable; // use tree_node as value cuz all nodes derives from it. 
+  SymbolTable<Symbol, tree_node> class_symtable; // use tree_node as value cuz all nodes derives from it.
+  void semant_class(class__class* current_class);
 };
 
 
