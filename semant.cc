@@ -175,7 +175,7 @@ void ClassTable::semant_class(c_node current_class){
 void ClassTable::semant_attr(c_node current_class,attr_class* attr){
     Symbol attr_name = attr->get_name();
     Table current_table = current_class->featureTable;
-
+    current_table.enterscope();
     Symbol attr_type = attr->get_type_decl();
     Expression init = attr->get_init();
 
