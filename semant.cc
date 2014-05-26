@@ -87,29 +87,61 @@ static void initialize_constants(void)
 ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) {
 
     class_symtable.enterscope();
-
+    install_basic_classes();
+  
+    Symbol class_name;
+    Symbol parent_name;
+    c_node current_class; 
+        // Do some check in the first loop
     for ( int i = classes->first(); classes->more(i); i = classes->next(i) ) {
-        c_node current_class = (c_node)classes->nth(i);
-        Symbol class_name = current_class->get_name();
+
+        current_class = (c_node)classes->nth(i);
+        class_name = current_class->get_name();
+
+        
+        /*
         if(semant_debug) {
-            cout << "classname:" << class_name <<endl;   
+            cerr << "classname:" << class_name <<endl;   
             //  test if we check over all classes
         }
-        
-        if( class_symtable.lookup(class_name) ){
+        */
+
+        if( class_symtable.lookup(class_name) != NULL ){
             //  check the situation of class multiply defined. 
             ostream& os =  semant_error(current_class);
             os << "Class " << class_name << " was previously defined." << endl;
+            continue;
         } 
 
-        class_symtable.addid(class_name,current_class);
+        /*
+        if(semant_debug){
+            if ( current_class->get_parent() != NULL ){
+                //  dump inheritance relationship
+                cerr << "class:" << class_name << "  parent: " << current_class->get_parent() <<endl;
+            }
+        }
+        */
 
+
+        class_symtable.addid(class_name,current_class);
     }
 
-    install_basic_classes();
-    
-    class_symtable.exitscope();
+            
+    for( int i = classes->first(); classes->more(i); i = classes->next(i) ){
 
+        current_class = (c_node)classes->nth(i);
+        class_name = current_class->get_name();
+
+        if ( class_name != Object ){
+            parent_name = current_class->get_parent();
+            if ( class_symtable.lookup(parent_name) == NULL ){
+                ostream& os =  semant_error(current_class);
+                os << "Class " << class_name << " inherits from an undefined class " << parent_name << "." << endl;
+            }
+        }
+    }
+
+    class_symtable.exitscope();
 }
 
 void ClassTable::install_basic_classes() {
@@ -211,6 +243,14 @@ void ClassTable::install_basic_classes() {
                             Str, 
                             no_expr()))),
                 filename);
+
+    // add primitive class into class table
+    class_symtable.addid(Object,(class__class*)Object_class); 
+    class_symtable.addid(IO,(class__class*)IO_class); 
+    class_symtable.addid(Int,(class__class*)Int_class); 
+    class_symtable.addid(Bool,(class__class*)Bool_class); 
+    class_symtable.addid(Str,(class__class*)Str_class); 
+
 }
 
 ////////////////////////////////////////////////////////////////////
