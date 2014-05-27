@@ -210,7 +210,7 @@ class class__class : public Class__class {
         Symbol get_parent()         { return parent; }
         Features get_features()     { return features; }
 //      filename is not needed
-        SymbolTable<Symbol,tree_node> featureTable; // need to maintain the features of the class
+        SymbolTable<Symbol,tree_node>  featureTable; // need to maintain the features of the class
 
 #ifdef Class__SHARED_EXTRAS
         Class__SHARED_EXTRAS

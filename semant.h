@@ -13,7 +13,7 @@
 
 class ClassTable;
 typedef ClassTable *ClassTableP;
-typedef SymbolTable<Symbol, tree_node> Table;
+typedef SymbolTable<Symbol, tree_node>& Table;
 
 // This is a structure that may be used to contain the semantic
 // information such as the inheritance graph.  You may use it or not as
