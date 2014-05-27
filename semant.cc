@@ -124,7 +124,7 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
         Table main_table = main_class->featureTable;
         // must do this probe after semant_class
         if ( main_table.probe(main_meth) == NULL ){ 
-            ostream& os =  semant_error();
+            ostream& os =  semant_error(main_class);
             os << "no 'main' method in class Main." << endl;
         }
 
@@ -183,7 +183,12 @@ void ClassTable::semant_attr(c_node current_class,attr_class* attr){
         os << "attribute " << attr_name << " declared with undefined type " << attr_type << endl;
     }
 
-    if ( current_table.probe(attr_name) ){
+    if ( attr_name == self ){
+        ostream& os = semant_error(current_class);
+        os << "Cannot assign to 'self'." << endl;
+    }
+    
+    else if ( current_table.probe(attr_name) ){
         ostream& os = semant_error(current_class);
         os << "attribute " << attr_name << " is multiply defined " << endl;
     }
