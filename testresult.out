@@ -61,12 +61,9 @@ submission: ..
 	-1 (overriderenamearg)	 Overriding parent's method with new param names (legal)
 	-1 (overridingmethod4)	 Illegal method override - different param types
 	-1 (signaturechange)	 Method override with different number of params
-	-1 (redefinedclass)	 Redefinition of a class (illegal)
-	-1 (returntypenoexist)	 Undefined return type
 	-1 (scopes)	 Scope test (legal)
 	-1 (self-assignment)	 Assignment to self (illegal)
 	-1 (selfinformalparameter)	 Self as name of a formal parameter (illegal)
-	-1 (selftypebadreturn)	 Non-conforming return type when SELF_TYPE is declared return type
 	-1 (selftypeparameterposition)	 SELF_TYPE given as a parameter type (illegal)
 	-1 (selftyperedeclared)	 SELF_TYPE redeclared (used a class name)
 	-1 (simplearith)	 Some simple arithmetic exprs
@@ -77,8 +74,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 6 out of 74.
+You got a score of 9 out of 74.
 
 Submit code: 
-PA3-6:40c47c5f2418ccb901d03c0d4be2f0a6
+PA3-9:23f55a2de7cf6f09d392f7b039e15952
 

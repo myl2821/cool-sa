@@ -194,8 +194,24 @@ void ClassTable::semant_attr(c_node current_class,attr_class* attr){
 
 
 void ClassTable::semant_method(c_node current_class,method_class* method){
-    ;
+    Symbol method_name = method->get_name();
+    Table current_table = current_class->featureTable;
+    Symbol ret_type = method->get_return_type();
+    Formals formals = method->get_formals();
 
+
+    if( class_symtable.lookup(ret_type) == NULL){
+        ostream& os = semant_error(current_class);
+        os << "method " << method_name << " return undefined type " << ret_type << endl;
+    }
+    
+    if ( current_table.probe(method_name) ){
+        ostream& os = semant_error(current_class);
+        os << "method " << method_name << " is multiply defined " << endl;
+    }
+
+
+    current_table.addid(method_name,method);
 }
 
 
