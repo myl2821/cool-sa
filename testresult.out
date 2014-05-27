@@ -1,9 +1,23 @@
 Grading .....
 make: Entering directory `/usr/class/cs143/cool/assignments/PA4'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 cool-tree.cc | sed '\''s/\(cool-tree\.o\)[ :]*/\1 cool-tree.d : /g'\'' > cool-tree.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 tree.cc | sed '\''s/\(tree\.o\)[ :]*/\1 tree.d : /g'\'' > tree.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 dumptype.cc | sed '\''s/\(dumptype\.o\)[ :]*/\1 dumptype.d : /g'\'' > dumptype.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 stringtab.cc | sed '\''s/\(stringtab\.o\)[ :]*/\1 stringtab.d : /g'\'' > stringtab.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 utilities.cc | sed '\''s/\(utilities\.o\)[ :]*/\1 utilities.d : /g'\'' > utilities.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 ast-parse.cc | sed '\''s/\(ast-parse\.o\)[ :]*/\1 ast-parse.d : /g'\'' > ast-parse.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 ast-lex.cc | sed '\''s/\(ast-lex\.o\)[ :]*/\1 ast-lex.d : /g'\'' > ast-lex.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 handle_flags.cc | sed '\''s/\(handle_flags\.o\)[ :]*/\1 handle_flags.d : /g'\'' > handle_flags.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 symtab_example.cc | sed '\''s/\(symtab_example\.o\)[ :]*/\1 symtab_example.d : /g'\'' > symtab_example.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 semant-phase.cc | sed '\''s/\(semant-phase\.o\)[ :]*/\1 semant-phase.d : /g'\'' > semant-phase.d'
+/bin/sh -ec 'g++ -MM -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 semant.cc | sed '\''s/\(semant\.o\)[ :]*/\1 semant.d : /g'\'' > semant.d'
+make: Leaving directory `/usr/class/cs143/cool/assignments/PA4'
+make: Entering directory `/usr/class/cs143/cool/assignments/PA4'
 make: Nothing to be done for `source'.
 make: Leaving directory `/usr/class/cs143/cool/assignments/PA4'
 make: Entering directory `/usr/class/cs143/cool/assignments/PA4'
-make: `semant' is up to date.
+g++ -g -Wall -Wno-unused -Wno-write-strings -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 -DDEBUG -c semant.cc
+g++ -g -Wall -Wno-unused -Wno-write-strings -I. -I/usr/class/cs143/cool/include/PA4 -I/usr/class/cs143/cool/src/PA4 -DDEBUG semant.o semant-phase.o handle_flags.o ast-lex.o ast-parse.o utilities.o stringtab.o dumptype.o tree.o cool-tree.o -lfl -o semant
 make: Leaving directory `/usr/class/cs143/cool/assignments/PA4'
 =====================================================================
 submission: ..
@@ -52,7 +66,6 @@ submission: ..
 	-1 (methodnameclash)	 Two children define a function differently (allowed)
 	-1 (neg)	 Negation of integer values
 	-1 (newselftype)	 Using a new SELF_TYPE expression (legal)
-	-1 (nomain)	 Missing Main class
 	-1 (objectdispatchabort)	 Calling abort() method on an object
 	-1 (outofscope)	 Using a name that exists but is out of scope
 	-1 (overridingmethod)	 Overriding parent class's method
@@ -74,8 +87,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 9 out of 74.
+You got a score of 10 out of 74.
 
 Submit code: 
-PA3-9:23f55a2de7cf6f09d392f7b039e15952
+PA3-10:c8ded08d82015fbcdaececf116bac062
 

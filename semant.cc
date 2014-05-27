@@ -83,27 +83,19 @@ static void initialize_constants(void)
 }
 
 
-    /* the WHOLE AST will be build in this constructor */
+/* the WHOLE AST will be build in this constructor */
 ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) {
 
     class_symtable.enterscope();
     install_basic_classes();
-  
+
     Symbol class_name;
     c_node current_class; 
-        // Do some check in the first loop
+    // Do some check in the first loop
     for ( int i = classes->first(); classes->more(i); i = classes->next(i) ) {
 
         current_class = (c_node)classes->nth(i);
         class_name = current_class->get_name();
-
-        
-        /*
-        if(semant_debug) {
-            cerr << "classname:" << class_name <<endl;   
-            //  test if we check over all classes
-        }
-        */
 
         if( class_symtable.lookup(class_name) != NULL ){
             //  check the situation of class multiply defined. 
@@ -112,49 +104,57 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
             continue;
         } 
 
-        /*
-        if(semant_debug){
-            if ( current_class->get_parent() != NULL ){
-                //  dump inheritance relationship
-                cerr << "class:" << class_name << "  parent: " << current_class->get_parent() <<endl;
-            }
-        }
-        */
-
 
         class_symtable.addid(class_name,current_class);
     }
 
-            
     for( int i = classes->first(); classes->more(i); i = classes->next(i) ){
         current_class = (c_node)classes->nth(i);
         semant_class(current_class);
-   }
+    }
+
+    //check Main 
+    if ( class_symtable.probe(Main) == NULL){
+        ostream& os =  semant_error();
+        os << "Class  main is not defined." << endl;
+    }
+
+    else {
+        c_node main_class = (c_node)class_symtable.probe(Main);
+        Table main_table = main_class->featureTable;
+        // must do this probe after semant_class
+        if ( main_table.probe(main_meth) == NULL ){ 
+            ostream& os =  semant_error();
+            os << "no 'main' method in class Main." << endl;
+        }
+
+    }
+
 
     class_symtable.exitscope();
 }
 
-    // first scan
+// first scan
 void ClassTable::semant_class(c_node current_class){
 
-        Table current_table = current_class->featureTable;
-        current_table.enterscope();
+    Table current_table = current_class->featureTable;
+    current_table.enterscope();
 
-        Symbol class_name = current_class->get_name();
-        Symbol parent_name;
+    Symbol class_name = current_class->get_name();
+    Symbol parent_name;
 
-        if ( class_name != Object ){
-            parent_name = current_class->get_parent();
+    if ( class_name != Object ){
+        parent_name = current_class->get_parent();
 
-            if ( parent_name == Bool || parent_name == SELF_TYPE || parent_name == Str){
-                ostream& os =  semant_error(current_class);
-                os << "Class " << class_name << " cannot inherit from class " << parent_name << "." << endl;
-            }
+        if ( parent_name == Bool || parent_name == SELF_TYPE || parent_name == Str){
+            ostream& os =  semant_error(current_class);
+            os << "Class " << class_name << " cannot inherit from class " << parent_name << "." << endl;
+        }
 
-            else if ( class_symtable.lookup(parent_name) == NULL ){
-                ostream& os =  semant_error(current_class);
-                os << "Class " << class_name << " inherits from an undefined class " << parent_name << "." << endl;
-            }
+        else if ( class_symtable.lookup(parent_name) == NULL ){
+            ostream& os =  semant_error(current_class);
+            os << "Class " << class_name << " inherits from an undefined class " << parent_name << "." << endl;
+        }
 
         Features features = current_class->get_features();
 
@@ -169,7 +169,7 @@ void ClassTable::semant_class(c_node current_class){
         } 
 
 
-        }
+    }
 }
 
 void ClassTable::semant_attr(c_node current_class,attr_class* attr){
@@ -182,7 +182,7 @@ void ClassTable::semant_attr(c_node current_class,attr_class* attr){
         ostream& os = semant_error(current_class);
         os << "attribute " << attr_name << " declared with undefined type " << attr_type << endl;
     }
-    
+
     if ( current_table.probe(attr_name) ){
         ostream& os = semant_error(current_class);
         os << "attribute " << attr_name << " is multiply defined " << endl;
@@ -204,7 +204,7 @@ void ClassTable::semant_method(c_node current_class,method_class* method){
         ostream& os = semant_error(current_class);
         os << "method " << method_name << " return undefined type " << ret_type << endl;
     }
-    
+
     if ( current_table.probe(method_name) ){
         ostream& os = semant_error(current_class);
         os << "method " << method_name << " is multiply defined " << endl;
