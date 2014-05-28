@@ -266,13 +266,31 @@ void ClassTable::semant_attr_expr(c_node current_class,attr_class* attr){
 
 // second scan
 void ClassTable::semant_method_expr(c_node current_class,method_class* method){
-;
+    Formals formals = method->get_formals();
+    Symbol ret_type = method->get_return_type();
+    Table current_table = current_class->featureTable;
+    current_table.enterscope();
+    for( int i = formals->first(); formals->more(i); i = formals->next(i) ){
+        Formal f = formals->nth(i);
+        semant_formal(current_class,f);
+    }
+    current_table.exitscope();
 }
 
 
 
-void ClassTable::semant_formal(c_node current_class,Formal formal){
-;
+void ClassTable::semant_formal(c_node current_class,Formal f){
+    Table current_table = current_class->featureTable;
+    formal_class * formal = (formal_class*) f;
+    if(current_table.probe(formal->get_name() ) ){
+        ostream& os = semant_error(current_class);
+        os << "formal " << formal->get_name() << "was defined previously." <<endl; 
+    }
+    if(class_symtable.lookup(formal->get_type_decl()) == NULL ) {
+        ostream& os = semant_error(current_class);
+        os << "formal " << formal->get_name() << "has undefined type " << formal->get_type_decl() << "." << endl; 
+    }
+    current_table.addid(formal->get_name(), formal);
 }
 
 void ClassTable::semant_expr(c_node current_class,Expression expr){
