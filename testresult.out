@@ -9,7 +9,6 @@ make: Leaving directory `/usr/class/cs143/cool/assignments/PA4'
 submission: ..
 
 	-1 (assignment)	 Valid assignments
-	-1 (assignnoconform)	 Assignment with non conforming expression
 	-1 (attrbadinit)	 Init attribute with undefined expression
 	-1 (attroverride)	 Attempt to override parent's attribute
 	-1 (badargs1)	 Non-conforming parameter type in dispatch
@@ -60,8 +59,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 23 out of 74.
+You got a score of 24 out of 74.
 
 Submit code: 
-PA3-23:28213dd063dbabeb49c7d4b75546f03b
+PA3-24:7eac00b726d4a1703ed6e640a7adc5f1
 

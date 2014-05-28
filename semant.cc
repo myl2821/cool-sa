@@ -321,6 +321,23 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
     switch (expr->get_type()){
         case assignType:
             {
+                assign_class* classptr = (assign_class*) expr;
+                Table current_table = current_class->featureTable;
+                c_node attr_class = (c_node)current_table.lookup(classptr->get_name()); 
+                if(attr_class == NULL){
+                    ostream& os = semant_error(current_class);
+                    os << classptr->get_name() << " : identifier not defined.\n";
+                }
+                else {
+                    semant_expr(current_class,classptr->get_expr());
+                    if(check_parent(attr_class->get_name(),classptr->get_expr()->type)){
+                        expr->type = classptr->get_expr()->type;
+                    }
+                    else {
+                        ostream& os = semant_error(current_class);
+                        os << "expression return type " << classptr->get_expr()->type << " not conform to identifier " << classptr->get_name() << "'s type " << attr_class->get_name() << ".\n";
+                    }
+                }
                 break;
             }
         case static_dispatchType:
