@@ -13,6 +13,8 @@ submission: ..
 	-1 (badargs1)	 Non-conforming parameter type in dispatch
 	-1 (badarith)	 Addition with non-int argument
 	-1 (baddispatch)	 Method only in child class, attempted dispatch from parent class
+	-1 (badequalitytest)	 Int compared to String
+	-1 (badequalitytest2)	 Int compared to Bool
 	-1 (badmethodcallsitself)	 Method called with itself as parameter (wrong type)
 	-1 (badstaticdispatch)	 Bad static dispatch
 	-1 (badwhilebody)	 While body has error
@@ -48,6 +50,7 @@ submission: ..
 	-1 (overridingmethod2)	 Another method override example
 	-1 (overridingmethod3)	 Method override example with SELF_TYPE
 	-1 (overridingmethod4)	 Illegal method override - different param types
+	-1 (signaturechange)	 Method override with different number of params
 	-1 (scopes)	 Scope test (legal)
 	-1 (simplearith)	 Some simple arithmetic exprs
 	-1 (simplecase)	 A simple case expr
@@ -57,8 +60,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 26 out of 74.
+You got a score of 23 out of 74.
 
 Submit code: 
-PA3-26:18f2831f458cefb4703a15b274fa0d2f
+PA3-23:28213dd063dbabeb49c7d4b75546f03b
 

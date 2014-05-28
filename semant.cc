@@ -97,7 +97,14 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
         current_class = (c_node)classes->nth(i);
         class_name = current_class->get_name();
 
-        if( class_symtable.lookup(class_name) != NULL ){
+        if(class_name == SELF_TYPE || class_name == Object || class_name == Int || 
+                class_name == Str || class_name == IO){
+            ostream& os =  semant_error(current_class);
+            os << "Redifinition of basic class " << class_name << "." << endl;
+            continue;
+        }
+
+        else  if( class_symtable.lookup(class_name) != NULL ){
             //  check the situation of class multiply defined. 
             ostream& os =  semant_error(current_class);
             os << "Class " << class_name << " was previously defined." << endl;
@@ -274,10 +281,10 @@ void ClassTable::semant_method_expr(c_node current_class,method_class* method){
         Formal f = formals->nth(i);
         semant_formal(current_class,f);
     }
-    current_table.exitscope();
     Expression expr = method->get_expr();
     semant_expr(current_class,expr);
 
+    current_table.exitscope();
     if ( check_parent(ret_type , expr->type) == false ){
         ostream& os = semant_error(current_class);
         os << "expression type " << expr->type <<" must conform to return type " << ret_type << "." << endl; 
