@@ -34,8 +34,15 @@ public:
   ostream& semant_error(Symbol filename, tree_node *t);
   SymbolTable<Symbol, tree_node> class_symtable; // use tree_node as value cuz all nodes derives from it.
   void semant_class(class__class* current_class);
+  void semant_class_attr(class__class* current_class);
+  void semant_attr_expr(class__class* current_class,attr_class* attr);
   void semant_attr(class__class* current_class,attr_class* attr);
   void semant_method(class__class* current_class,method_class* method);
+  void semant_method_expr(class__class* current_class,method_class* method);
+  void semant_formal(class__class* current_class,Formal formal);
+  void semant_expr(class__class* current_class,Expression expr);
+  bool check_parent(Symbol parent,Symbol child);
+  Symbol lub(Symbol type1,Symbol type2);
 };
 
 

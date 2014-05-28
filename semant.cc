@@ -91,7 +91,7 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
 
     Symbol class_name;
     c_node current_class; 
-    // Do some check in the first loop
+    // Do some check in the first loop, build class symbol table
     for ( int i = classes->first(); classes->more(i); i = classes->next(i) ) {
 
         current_class = (c_node)classes->nth(i);
@@ -107,7 +107,7 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
 
         class_symtable.addid(class_name,current_class);
     }
-
+    // first scan, not related to expression
     for( int i = classes->first(); classes->more(i); i = classes->next(i) ){
         current_class = (c_node)classes->nth(i);
         semant_class(current_class);
@@ -128,6 +128,13 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
             os << "no 'main' method in class Main." << endl;
         }
 
+    }
+
+
+    // second scan, check expression
+    for( int i = classes->first(); classes->more(i); i = classes->next(i) ){
+        current_class = (c_node)classes->nth(i);
+        semant_class_attr(current_class);
     }
 
 
@@ -155,28 +162,51 @@ void ClassTable::semant_class(c_node current_class){
             ostream& os =  semant_error(current_class);
             os << "Class " << class_name << " inherits from an undefined class " << parent_name << "." << endl;
         }
-
-        Features features = current_class->get_features();
-
-        for( int i = features->first(); features->more(i); i = features->next(i) ){
-            Feature feature = features->nth(i);
-            if ( feature->get_type() == attrType ){
-                semant_attr( current_class, (attr_class*)feature );         
-            }
-            else if ( feature-> get_type() == methodType ){
-                semant_method( current_class, (method_class*)feature );       
-            }
-        } 
-
-
     }
+
+    Features features = current_class->get_features();
+
+    for( int i = features->first(); features->more(i); i = features->next(i) ){
+        Feature feature = features->nth(i);
+        if ( feature->get_type() == attrType ){
+            semant_attr( current_class, (attr_class*)feature );         
+        }
+        else if ( feature-> get_type() == methodType ){
+            semant_method( current_class, (method_class*)feature );       
+        }
+    } 
+
+
 }
 
+
+// second scan
+void ClassTable::semant_class_attr(c_node current_class){
+
+    Table current_table = current_class->featureTable;
+
+    Symbol class_name = current_class->get_name();
+    Symbol parent_name;
+    Features features = current_class->get_features();
+
+    for( int i = features->first(); features->more(i); i = features->next(i) ){
+        Feature feature = features->nth(i);
+        if ( feature->get_type() == attrType ){
+            semant_attr_expr( current_class, (attr_class*)feature );         
+        }
+        else if ( feature-> get_type() == methodType ){
+            semant_method_expr( current_class, (method_class*)feature );       
+        }
+    } 
+
+}
+
+
+// First scan
 void ClassTable::semant_attr(c_node current_class,attr_class* attr){
     Symbol attr_name = attr->get_name();
     Table current_table = current_class->featureTable;
     Symbol attr_type = attr->get_type_decl();
-    Expression init = attr->get_init();
 
     if( class_symtable.lookup(attr_type) == NULL){
         ostream& os = semant_error(current_class);
@@ -197,13 +227,13 @@ void ClassTable::semant_attr(c_node current_class,attr_class* attr){
 
 }
 
-
+// First scan
 void ClassTable::semant_method(c_node current_class,method_class* method){
     Symbol method_name = method->get_name();
     Table current_table = current_class->featureTable;
     Symbol ret_type = method->get_return_type();
     Formals formals = method->get_formals();
-
+    Expression expr = method->get_expr();
 
     if( class_symtable.lookup(ret_type) == NULL){
         ostream& os = semant_error(current_class);
@@ -218,6 +248,88 @@ void ClassTable::semant_method(c_node current_class,method_class* method){
 
     current_table.addid(method_name,method);
 }
+
+// second scan
+void ClassTable::semant_attr_expr(c_node current_class,attr_class* attr){
+    Symbol attr_name = attr->get_name();
+    Table current_table = current_class->featureTable;
+    Symbol attr_type = attr->get_type_decl();
+    Expression init = attr->get_init();
+    semant_expr(current_class, init);
+/*
+    if ( check_parent(attr_type , init->type) == false ){
+        ostream& os = semant_error(current_class);
+        os << "expression type " << init->type <<" must conform to attribution type " << attr_type << "." << endl; 
+    }
+    */
+}
+
+// second scan
+void ClassTable::semant_method_expr(c_node current_class,method_class* method){
+;
+}
+
+
+
+void ClassTable::semant_formal(c_node current_class,Formal formal){
+;
+}
+
+void ClassTable::semant_expr(c_node current_class,Expression expr){
+;
+}
+
+
+/*
+ *  subroutines that helps implement the semantic analysis
+ *
+ *  check_parent(Symbol parent, Symbol child) : check if inheritance exists
+ * 
+ *  lub (Symbol type1,Symbol type2) : find the least upper bound between two input types
+ *
+ */
+
+bool ClassTable::check_parent(Symbol parent, Symbol child) {
+    if ( parent == child || parent == Object || child == No_type ){
+        return true;
+    }
+
+    while (child != No_class){
+        c_node c = (c_node) class_symtable.lookup(child);
+        if (c == NULL){
+            return false;
+        }
+        child = c->get_parent();
+        if (child == parent){
+            return true;
+        }
+    }
+    return false;
+}
+
+Symbol ClassTable::lub(Symbol type1,Symbol type2){
+    if(check_parent(type1,type2) || type2 == No_type){
+        return type1;
+    }
+    else if(check_parent(type2,type1) || type1 == No_type ){
+        return type2;
+    }
+    
+    else {
+        c_node c = (c_node) class_symtable.lookup(type1);
+        type1 = c->get_parent(); 
+        return lub(type1,type2); 
+    
+    }
+
+
+}
+
+
+
+/*
+ * subroutines end
+ */
 
 
 void ClassTable::install_basic_classes() {
