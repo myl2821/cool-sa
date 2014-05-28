@@ -275,6 +275,14 @@ void ClassTable::semant_method_expr(c_node current_class,method_class* method){
         semant_formal(current_class,f);
     }
     current_table.exitscope();
+    Expression expr = method->get_expr();
+    semant_expr(current_class,expr);
+
+    if ( check_parent(ret_type , expr->type) == false ){
+        ostream& os = semant_error(current_class);
+        os << "expression type " << expr->type <<" must conform to return type " << ret_type << "." << endl; 
+    }
+    
 }
 
 
@@ -296,7 +304,7 @@ void ClassTable::semant_formal(c_node current_class,Formal f){
     
     if(formal->get_type_decl() == SELF_TYPE){
         ostream& os = semant_error(current_class);
-        os << "SELF_TYPE as a formal type\n";
+        os << "SELF_TYPE as a formal type.\n";
     }
 
     else if(class_symtable.lookup(formal->get_type_decl()) == NULL ) {

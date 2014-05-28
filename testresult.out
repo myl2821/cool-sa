@@ -22,7 +22,6 @@ submission: ..
 	-1 (badwhilebody)	 While body has error
 	-1 (badwhilecond)	 While test has error
 	-1 (basic)	 Simple program with a sequence of expressions
-	-1 (basicclassestree)	 Test of inheritance tree (Object as ansestor of everything)
 	-1 (caseidenticalbranch)	 Duplicate branch in a case expr
 	-1 (cells)	 Complex program
 	-1 (classes)	 Various classes with inheritance and overriding (legal)
@@ -31,10 +30,8 @@ submission: ..
 	-1 (cycleinmethods)	 Methods call each other in a cycle (legal)
 	-1 (dispatch)	 Simple dispatches
 	-1 (expressionblock)	 Simple expression block (i.e. list)
-	-1 (forwardinherits)	 Forward declaration in inherits clause (legal)
 	-1 (hairyscary)	 Messy legal Cool program
 	-1 (if)	 If statement
-	-1 (inheritsObject)	 Class explicitly inherits Object (legal)
 	-1 (initwithself)	 Attribute initialized with self (legal)
 	-1 (io)	 IO methods
 	-1 (isvoid)	 isvoid expressions
@@ -52,12 +49,9 @@ submission: ..
 	-1 (newselftype)	 Using a new SELF_TYPE expression (legal)
 	-1 (objectdispatchabort)	 Calling abort() method on an object
 	-1 (outofscope)	 Using a name that exists but is out of scope
-	-1 (overridingmethod)	 Overriding parent class's method
 	-1 (overridingmethod2)	 Another method override example
 	-1 (overridingmethod3)	 Method override example with SELF_TYPE
-	-1 (overriderenamearg)	 Overriding parent's method with new param names (legal)
 	-1 (overridingmethod4)	 Illegal method override - different param types
-	-1 (signaturechange)	 Method override with different number of params
 	-1 (scopes)	 Scope test (legal)
 	-1 (selftyperedeclared)	 SELF_TYPE redeclared (used a class name)
 	-1 (simplearith)	 Some simple arithmetic exprs
@@ -68,8 +62,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 15 out of 74.
+You got a score of 21 out of 74.
 
 Submit code: 
-PA3-15:34de1649d95d8fa84bb2351ed7453094
+PA3-21:16e2d0e6619c226d13643411ebdd8285
 
