@@ -9,7 +9,6 @@ make: Leaving directory `/usr/class/cs143/cool/assignments/PA4'
 submission: ..
 
 	-1 (assignment)	 Valid assignments
-	-1 (attrbadinit)	 Init attribute with undefined expression
 	-1 (attroverride)	 Attempt to override parent's attribute
 	-1 (badargs1)	 Non-conforming parameter type in dispatch
 	-1 (badarith)	 Addition with non-int argument
@@ -50,7 +49,6 @@ submission: ..
 	-1 (overridingmethod3)	 Method override example with SELF_TYPE
 	-1 (overridingmethod4)	 Illegal method override - different param types
 	-1 (scopes)	 Scope test (legal)
-	-1 (selftyperedeclared)	 SELF_TYPE redeclared (used a class name)
 	-1 (simplearith)	 Some simple arithmetic exprs
 	-1 (simplecase)	 A simple case expr
 	-1 (staticdispatch)	 Simple static dispatch
@@ -59,8 +57,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 24 out of 74.
+You got a score of 26 out of 74.
 
 Submit code: 
-PA3-24:7eac00b726d4a1703ed6e640a7adc5f1
+PA3-26:18f2831f458cefb4703a15b274fa0d2f
 

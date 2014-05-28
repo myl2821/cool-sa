@@ -43,6 +43,7 @@ public:
   void semant_expr(class__class* current_class,Expression expr);
   bool check_parent(Symbol parent,Symbol child);
   Symbol lub(Symbol type1,Symbol type2);
+  Symbol get_feature_type(Feature feature);
 };
 
 

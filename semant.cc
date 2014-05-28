@@ -116,7 +116,7 @@ ClassTable::ClassTable(Classes classes) : semant_errors(0) , error_stream(cerr) 
     //check Main 
     if ( class_symtable.probe(Main) == NULL){
         ostream& os =  semant_error();
-        os << "Class  main is not defined." << endl;
+        os << "Class main is not defined." << endl;
     }
 
     else {
@@ -323,19 +323,19 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
             {
                 assign_class* classptr = (assign_class*) expr;
                 Table current_table = current_class->featureTable;
-                c_node attr_class = (c_node)current_table.lookup(classptr->get_name()); 
-                if(attr_class == NULL){
+                Feature feature = (Feature)current_table.lookup(classptr->get_name()); 
+                if(feature == NULL || feature->get_type() != attrType){
                     ostream& os = semant_error(current_class);
                     os << classptr->get_name() << " : identifier not defined.\n";
                 }
                 else {
                     semant_expr(current_class,classptr->get_expr());
-                    if(check_parent(attr_class->get_name(),classptr->get_expr()->type)){
+                    if(check_parent(get_feature_type(feature),classptr->get_expr()->type)){
                         expr->type = classptr->get_expr()->type;
                     }
                     else {
                         ostream& os = semant_error(current_class);
-                        os << "expression return type " << classptr->get_expr()->type << " not conform to identifier " << classptr->get_name() << "'s type " << attr_class->get_name() << ".\n";
+                        os << "expression return type " << classptr->get_expr()->type << " not conform to identifier " << classptr->get_name() << "'s type " << get_feature_type(feature) << ".\n";
                     }
                 }
                 break;
@@ -534,7 +534,17 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
             }
         case objectType:
             {
-                expr->type = Object; 
+                object_class* classptr = (object_class*) expr;
+                Table current_table = current_class->featureTable;
+                Symbol name = classptr->get_name();
+                Feature feature = (Feature)current_table.lookup(name);
+                if( feature == NULL || feature->get_type() == methodType){
+                    ostream& os = semant_error(current_class);
+                    os << "object " << name <<" not defined.\n";
+                }
+                else{
+                   expr->type = get_feature_type(feature);
+                }
                 break;
             }
 
@@ -553,6 +563,7 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
  * 
  *  lub (Symbol type1,Symbol type2) : find the least upper bound between two input types
  *
+ *  get_feature_type(c_node class,Feature feature):find the type of the feature
  */
 
 bool ClassTable::check_parent(Symbol parent, Symbol child) {
@@ -580,17 +591,24 @@ Symbol ClassTable::lub(Symbol type1,Symbol type2){
     else if(check_parent(type2,type1) || type1 == No_type ){
         return type2;
     }
-
     else {
         c_node c = (c_node) class_symtable.lookup(type1);
         type1 = c->get_parent(); 
         return lub(type1,type2); 
-
     }
-
-
 }
 
+
+Symbol ClassTable::get_feature_type(Feature feature){
+    if(feature->get_type() == attrType){
+        attr_class* attr = (attr_class*) feature;
+        return attr->get_type_decl();
+    }
+    else {
+        method_class* method = (method_class*) feature;
+        return method->get_return_type();
+    }  
+}
 
 
 /*
