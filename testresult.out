@@ -59,7 +59,6 @@ submission: ..
 	-1 (overridingmethod4)	 Illegal method override - different param types
 	-1 (signaturechange)	 Method override with different number of params
 	-1 (scopes)	 Scope test (legal)
-	-1 (selfinformalparameter)	 Self as name of a formal parameter (illegal)
 	-1 (selftyperedeclared)	 SELF_TYPE redeclared (used a class name)
 	-1 (simplearith)	 Some simple arithmetic exprs
 	-1 (simplecase)	 A simple case expr
@@ -69,8 +68,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 14 out of 74.
+You got a score of 15 out of 74.
 
 Submit code: 
-PA3-14:9586a7252b17880d61889e873978bc9b
+PA3-15:34de1649d95d8fa84bb2351ed7453094
 

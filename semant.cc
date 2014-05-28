@@ -282,11 +282,24 @@ void ClassTable::semant_method_expr(c_node current_class,method_class* method){
 void ClassTable::semant_formal(c_node current_class,Formal f){
     Table current_table = current_class->featureTable;
     formal_class * formal = (formal_class*) f;
-    if(current_table.probe(formal->get_name() ) ){
+    
+    if (formal->get_name() == self){
+        ostream& os = semant_error(current_class);
+        os << "'self' as a formal identifier." <<endl; 
+    
+    }
+
+    else if(current_table.probe(formal->get_name() ) ){
         ostream& os = semant_error(current_class);
         os << "formal " << formal->get_name() << "was defined previously." <<endl; 
     }
-    if(class_symtable.lookup(formal->get_type_decl()) == NULL ) {
+    
+    if(formal->get_type_decl() == SELF_TYPE){
+        ostream& os = semant_error(current_class);
+        os << "SELF_TYPE as a formal type\n";
+    }
+
+    else if(class_symtable.lookup(formal->get_type_decl()) == NULL ) {
         ostream& os = semant_error(current_class);
         os << "formal " << formal->get_name() << "has undefined type " << formal->get_type_decl() << "." << endl; 
     }
