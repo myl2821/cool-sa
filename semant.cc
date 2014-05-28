@@ -256,12 +256,12 @@ void ClassTable::semant_attr_expr(c_node current_class,attr_class* attr){
     Symbol attr_type = attr->get_type_decl();
     Expression init = attr->get_init();
     semant_expr(current_class, init);
-/*
+
     if ( check_parent(attr_type , init->type) == false ){
         ostream& os = semant_error(current_class);
         os << "expression type " << init->type <<" must conform to attribution type " << attr_type << "." << endl; 
     }
-    */
+    
 }
 
 // second scan
@@ -276,8 +276,146 @@ void ClassTable::semant_formal(c_node current_class,Formal formal){
 }
 
 void ClassTable::semant_expr(c_node current_class,Expression expr){
-;
+
+    expr->type = No_type; // for error handle
+
+    switch (expr->get_type()){
+        case assignType:
+            {
+                break;
+            }
+        case static_dispatchType:
+            {
+                break;
+            }
+        case dispatchType:
+            {
+                break;
+            }
+        case condType:
+            {
+                break;
+            }
+        case loopType:
+            {
+                break;
+            }
+        case caseType:
+            {
+                break;
+            }
+        case blockType:
+            {
+                break;
+            }
+        case letType:
+            {
+                break;
+            }
+        case plusType:
+            {
+                plus_class* classptr = (plus_class*)expr;
+                if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
+                    expr->type = Int;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type << " + " << classptr->get_e2()->type << ".";
+                }
+                break;
+            }
+        case subType:
+            {
+                sub_class* classptr = (sub_class*)expr;
+                if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
+                    expr->type = Int;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type << " - " << classptr->get_e2()->type << ".";
+                }
+                break;
+            }
+        case mulType:
+            {
+                mul_class* classptr = (mul_class*)expr;
+                if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
+                    expr->type = Int;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type << " * " << classptr->get_e2()->type << ".";
+                }
+                break;
+            }
+        case divType:
+            {
+                divide_class* classptr = (divide_class*)expr;
+                if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
+                    expr->type = Int;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type << " + " << classptr->get_e2()->type << ".";
+                }
+                break;
+            }
+        case negType:
+            {
+                break;
+            }
+        case ltType:
+            {
+                break;
+            }
+        case eqType:
+            {
+                break;
+            }
+        case leqType:
+            {
+                break;
+            }
+        case int_constType:
+            {
+                expr->type = Int;
+                break;
+            }
+        case bool_constType:
+            {
+                expr->type = Bool;
+                break;
+            }
+        case string_constType:
+            {
+                expr->type = Str;
+                break;
+            }
+        case newType:
+            {
+                break;
+            }
+        case isvoidType:
+            {
+                break;
+            }
+        case no_exprType:
+            {
+                expr->type = No_type;
+                break;
+            }
+        case objectType:
+            {
+                expr->type = Object; 
+                break;
+            }
+
+        default:
+            break;
+    }
+
 }
+
 
 
 /*
@@ -314,12 +452,12 @@ Symbol ClassTable::lub(Symbol type1,Symbol type2){
     else if(check_parent(type2,type1) || type1 == No_type ){
         return type2;
     }
-    
+
     else {
         c_node c = (c_node) class_symtable.lookup(type1);
         type1 = c->get_parent(); 
         return lub(type1,type2); 
-    
+
     }
 
 
