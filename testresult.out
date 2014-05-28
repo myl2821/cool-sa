@@ -15,8 +15,6 @@ submission: ..
 	-1 (badargs1)	 Non-conforming parameter type in dispatch
 	-1 (badarith)	 Addition with non-int argument
 	-1 (baddispatch)	 Method only in child class, attempted dispatch from parent class
-	-1 (badequalitytest)	 Int compared to String
-	-1 (badequalitytest2)	 Int compared to Bool
 	-1 (badmethodcallsitself)	 Method called with itself as parameter (wrong type)
 	-1 (badstaticdispatch)	 Bad static dispatch
 	-1 (badwhilebody)	 While body has error
@@ -62,8 +60,8 @@ submission: ..
 	-1 (trickyatdispatch)	 Tricky (legal) static dispatch
 	-1 (trickyatdispatch2)	 Tricky (illegal) static dispatch
 =====================================================================
-You got a score of 21 out of 74.
+You got a score of 23 out of 74.
 
 Submit code: 
-PA3-21:16e2d0e6619c226d13643411ebdd8285
+PA3-23:28213dd063dbabeb49c7d4b75546f03b
 

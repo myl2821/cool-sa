@@ -354,6 +354,8 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
         case plusType:
             {
                 plus_class* classptr = (plus_class*)expr;
+                semant_expr(current_class,classptr->get_e1());
+                semant_expr(current_class,classptr->get_e2());
                 if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
                     expr->type = Int;
                 }
@@ -366,6 +368,8 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
         case subType:
             {
                 sub_class* classptr = (sub_class*)expr;
+                semant_expr(current_class,classptr->get_e1());
+                semant_expr(current_class,classptr->get_e2());
                 if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
                     expr->type = Int;
                 }
@@ -378,6 +382,8 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
         case mulType:
             {
                 mul_class* classptr = (mul_class*)expr;
+                semant_expr(current_class,classptr->get_e1());
+                semant_expr(current_class,classptr->get_e2());
                 if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
                     expr->type = Int;
                 }
@@ -390,29 +396,86 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
         case divType:
             {
                 divide_class* classptr = (divide_class*)expr;
+                semant_expr(current_class,classptr->get_e1());
+                semant_expr(current_class,classptr->get_e2());
                 if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
                     expr->type = Int;
                 }
                 else {
                     ostream& os = semant_error(current_class);
-                    os << "non-Int arguments: " << classptr->get_e1()->type << " + " << classptr->get_e2()->type << ".";
+                    os << "non-Int arguments: " << classptr->get_e1()->type << " + " << classptr->get_e2()->type << "." << endl;
                 }
                 break;
             }
         case negType:
             {
+                neg_class* classptr = (neg_class*) expr;
+                semant_expr(current_class,classptr->get_e1());
+                if( classptr->get_e1()->type == Int){
+                    expr->type = Int;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type <<  "." << endl;
+                }
                 break;
             }
         case ltType:
             {
+                lt_class* classptr = (lt_class*) expr;
+                semant_expr(current_class,classptr->get_e1());
+                semant_expr(current_class,classptr->get_e2());
+                if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
+                    expr->type = Bool;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type <<  " = " << classptr->get_e2()->type << "." << endl;
+                }
+ 
                 break;
             }
         case eqType:
             {
+                eq_class* classptr = (eq_class*) expr;
+                semant_expr(current_class,classptr->get_e1());
+                semant_expr(current_class,classptr->get_e2());
+                if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
+                    expr->type = Bool;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type <<  " = " << classptr->get_e2()->type << "." << endl;
+                }
+ 
                 break;
             }
         case leqType:
             {
+                leq_class* classptr = (leq_class*) expr;
+                semant_expr(current_class,classptr->get_e1());
+                semant_expr(current_class,classptr->get_e2()); 
+                if( classptr->get_e1()->type == Int && classptr->get_e2()->type == Int){
+                    expr->type = Bool;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type <<  " <= " << classptr->get_e2()->type << "." << endl;
+                }
+                break;
+            }
+        case compType:
+            {
+                comp_class* classptr = (comp_class*) expr;
+                semant_expr(current_class,classptr->get_e1());
+                if( classptr->get_e1()->type == Int){
+                    expr->type = Int;
+                }
+                else {
+                    ostream& os = semant_error(current_class);
+                    os << "non-Int arguments: " << classptr->get_e1()->type <<  "." << endl;
+                }
+
                 break;
             }
         case int_constType:
@@ -432,10 +495,19 @@ void ClassTable::semant_expr(c_node current_class,Expression expr){
             }
         case newType:
             {
+                new__class* classptr = (new__class*)expr;
+                Symbol type_name = classptr->get_type_name();
+                if (type_name == SELF_TYPE){
+                    expr->type = current_class->get_name();
+                }
+                else {
+                    expr->type = type_name;
+                }
                 break;
             }
         case isvoidType:
             {
+                expr->type = Bool;
                 break;
             }
         case no_exprType:
